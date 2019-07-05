@@ -20,18 +20,68 @@ class ZoomTransition: NSObject {
     fileprivate var isPresent = false
     
     private func presentTransition(transitionContext: UIViewControllerContextTransitioning) {
+        let containerView = transitionContext.containerView
         
+        guard
+            let sourceVC = transitionContext.viewController(forKey: .from) as? SourceViewController,
+            let destinationVC = transitionContext.viewController(forKey: .to) as? DestinationViewController,
+            let cell = sourceVC.collectionView?.cellForItem(at: (sourceVC.collectionView?.indexPathsForSelectedItems?.first)!) as? CollectionViewCell
+            else {
+                return
+        }
+        
+        let animationView = UIImageView(image: cell.imageView.image)
+        animationView.frame = containerView.convert(cell.imageView.frame, to: cell.imageView.superview)
+        cell.imageView.isHidden = true
+        
+        destinationVC.view.frame = transitionContext.finalFrame(for: destinationVC)
+        destinationVC.view.alpha = 0
+        destinationVC.imageView.isHidden = true
+        
+        containerView.addSubview(destinationVC.view)
+        containerView.addSubview(animationView)
+        
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
+            destinationVC.view.alpha = 1.0
+            animationView.frame = containerView.convert(destinationVC.imageView.frame, from: destinationVC.view)
+        }, completion: { _ in
+            cell.imageView.isHidden = false
+            destinationVC.imageView.isHidden = false
+            animationView.removeFromSuperview()
+            transitionContext.completeTransition(true)
+        })
     }
     
     private func dissmissalTransition(transitionContext: UIViewControllerContextTransitioning) {
         let containerView = transitionContext.containerView
         
         guard
-            let fromVC = transitionContext.viewController(forKey: .from),
-            let toVC = transitionContext.viewController(forKey: .to)
+            let sourceVC = transitionContext.viewController(forKey: .to) as? SourceViewController,
+            let destinationVC = transitionContext.viewController(forKey: .from) as? DestinationViewController,
+            let cell = sourceVC.collectionView?.cellForItem(at: destinationVC.indexPath) as? CollectionViewCell
             else {
-            return
+                return
         }
+        
+        let animationView = destinationVC.imageView.snapshotView(afterScreenUpdates: false)
+        animationView?.frame = containerView.convert(destinationVC.imageView.frame, from: destinationVC.imageView.superview)
+        destinationVC.imageView.isHidden = true
+        
+        cell.imageView.isHidden = true
+        sourceVC.view.frame = transitionContext.finalFrame(for: sourceVC)
+        
+        containerView.insertSubview(sourceVC.view, belowSubview: destinationVC.view)
+        containerView.addSubview(animationView!)
+        
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
+            destinationVC.view.alpha = 0
+            animationView?.frame = containerView.convert(cell.imageView.frame, from: cell.imageView.superview)
+        }, completion: { _ in
+            animationView?.removeFromSuperview()
+            destinationVC.imageView.isHidden = false
+            cell.imageView.isHidden = false
+            transitionContext.completeTransition(true)
+        })
     }
 }
 

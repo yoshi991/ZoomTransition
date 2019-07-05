@@ -22,7 +22,7 @@ class SourceViewController: UICollectionViewController {
         }
         
         destinationVC.indexPath = indexPath
-//        destinationVC.transitioningDelegate = zoomTransition
+        destinationVC.transitioningDelegate = zoomTransition
     }
     
     // MARK: UICollectionViewDelegate
