@@ -32,6 +32,8 @@ class ZoomTransition: NSObject {
         
         let animationView = UIImageView(image: cell.imageView.image)
         animationView.frame = containerView.convert(cell.imageView.frame, from: cell.imageView.superview)
+        self.setImageFilter(imageView: animationView)
+        
         cell.imageView.isHidden = true
         
         destinationVC.view.frame = transitionContext.finalFrame(for: destinationVC)
@@ -82,6 +84,19 @@ class ZoomTransition: NSObject {
             transitionContext.completeTransition(true)
         })
     }
+    
+    private func setImageFilter(imageView: UIImageView){
+        guard let cgImage = imageView.image?.cgImage else {
+            return
+        }
+        
+        let ciImage = CIImage(cgImage: cgImage)
+        let filter = CIFilter(name: "CIBoxBlur")!
+        filter.setValue(ciImage, forKey: kCIInputImageKey)
+        if let filterImage = filter.outputImage {
+            imageView.image = UIImage(ciImage: filterImage)
+        }
+    }
 }
 
 extension ZoomTransition: UIViewControllerTransitioningDelegate {
@@ -99,7 +114,7 @@ extension ZoomTransition: UIViewControllerTransitioningDelegate {
 extension ZoomTransition: UIViewControllerAnimatedTransitioning {
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         if self.isPresent {
-            return 0.3
+            return 1.3
         }
         return 0.7
     }

@@ -19,7 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BhX-GZ-Y9A">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="-589.5" y="0.0" width="1593" height="896"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="BhX-GZ-Y9A" secondAttribute="height" multiplier="16:9" id="kaM-Ab-jIq"/>
+                                </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FA6-9I-Cuh">
                                 <rect key="frame" x="364" y="62" width="32" height="32"/>
@@ -38,9 +41,8 @@
                             <constraint firstItem="BhX-GZ-Y9A" firstAttribute="top" secondItem="gzt-bc-OjX" secondAttribute="top" id="Aqr-cR-4Ky"/>
                             <constraint firstItem="FA6-9I-Cuh" firstAttribute="top" secondItem="tyS-as-b3i" secondAttribute="top" constant="18" id="P9i-aa-doS"/>
                             <constraint firstItem="tyS-as-b3i" firstAttribute="trailing" secondItem="FA6-9I-Cuh" secondAttribute="trailing" constant="18" id="Vtl-yR-kKJ"/>
-                            <constraint firstItem="BhX-GZ-Y9A" firstAttribute="leading" secondItem="tyS-as-b3i" secondAttribute="leading" id="js3-d5-p4q"/>
-                            <constraint firstItem="BhX-GZ-Y9A" firstAttribute="trailing" secondItem="tyS-as-b3i" secondAttribute="trailing" id="kCU-px-Mh5"/>
                             <constraint firstAttribute="bottom" secondItem="BhX-GZ-Y9A" secondAttribute="bottom" id="mj0-Mz-Cx9"/>
+                            <constraint firstItem="BhX-GZ-Y9A" firstAttribute="centerX" secondItem="gzt-bc-OjX" secondAttribute="centerX" id="zd8-s6-HaE"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="tyS-as-b3i"/>
                     </view>
