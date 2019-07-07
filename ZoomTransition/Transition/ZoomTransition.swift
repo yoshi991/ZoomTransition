@@ -31,7 +31,7 @@ class ZoomTransition: NSObject {
         }
         
         let animationView = UIImageView(image: cell.imageView.image)
-        animationView.frame = containerView.convert(cell.imageView.frame, to: cell.imageView.superview)
+        animationView.frame = containerView.convert(cell.imageView.frame, from: cell.imageView.superview)
         cell.imageView.isHidden = true
         
         destinationVC.view.frame = transitionContext.finalFrame(for: destinationVC)
@@ -62,15 +62,14 @@ class ZoomTransition: NSObject {
             else {
                 return
         }
-        
+
         let animationView = destinationVC.imageView.snapshotView(afterScreenUpdates: false)
         animationView?.frame = containerView.convert(destinationVC.imageView.frame, from: destinationVC.imageView.superview)
         destinationVC.imageView.isHidden = true
         
         cell.imageView.isHidden = true
-        sourceVC.view.frame = transitionContext.finalFrame(for: sourceVC)
         
-        containerView.insertSubview(sourceVC.view, belowSubview: destinationVC.view)
+        sourceVC.view.frame = transitionContext.finalFrame(for: sourceVC)
         containerView.addSubview(animationView!)
         
         UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
